@@ -33,14 +33,32 @@ Some of the value columns have labeled with certain words, following table expla
 |IEH   |                  NA|                              NA|                            694|                            NA|                   694|
 |TPL   |                  NA|                              NA|                              9|                            NA|                    12|
 
+When examined I figured out that each label except PNS is about project department, we can understand the situation with following table;
+
+|Project_Type           |Project_Phase_Planned_End_Date |Project_Budget_Amount |
+|:----------------------|:------------------------------|:---------------------|
+|SCA IEH                |IEH                            |IEH                   |
+|DOE - RESOA            |DOER                           |DOER                  |
+|DOE - Skilled Trades   |DOES                           |DOES                  |
+|Fast Track Projects    |FTK                            |FTK                   |
+|DIIT - RESOA           |DIIR                           |DIIR                  |
+|Trust For Public Land  |TPL                            |TPL                   |
+|SCA Emergency Response |EMER                           |EMER                  |
+|DIIT - Project Connect |DIIT                           |DIIT                  |
+|DOE - Lead Paint       |DOEL                           |DOEL                  |
+|DOE Managed PRE-K      |DOEP                           |DOEP                  |
+
+So we will convert these labels to NA because this labels does not exhibit a information on project apart from the project which is a distinct column.
+
+However, PNS is different. Eventough there is no information on metadata(or other resources) about PNS, by examining data thoroughly we may conclude that PNS label is about planning. My best guess is PNS stands for "Planned - Not Started"
+
 ## NAs
 
 ### Project_Phase_Actual_End_Date
 
 Several columns have NA values most crucial one is Project_Phase_Actual_End_Date.
-It has 4533 NA when examined this is equal to amount of Project_Status of In-progress.
+It has 4533 NA. When examined this is equal to amount of Project_Status of In-progress.
 So these data actually is not missing but has not occurred yet so we need to hold the data 
-
 
 ### Project_Phase_Name
 
@@ -49,10 +67,28 @@ This implementation can be done because every other column has meaningful values
 
 ### Project_Phase_Planned_End_Date
 
-After examination deeply one can find that this columns NA occurs when project type and if Project status is PNS planned enddate is PNS and if it is completed it has proper date and if it is In-progress it has value NA. So in this case being NA has its own meaning so we cant implement anything that changes mentioned structure or drop these values.
+After examination deeply one can find that this columns' NA occurs when project type and if Project status is PNS planned end date is PNS. And if it is completed or In-progress it has value NA.This means these projects starting with no planned end date. So in this case being NA has its own meaning so we cant implement anything that changes mentioned structure or drop these values.
 
+### Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount
 
+Except two cases we can explain these NAs with following relationship; Emergency projects with zero actual spending has no estimated cost except one case. And another case has no estimated cost but it is not an emergency project. The latter case might be dropped out but other 16 cases should be handled as "can't estimate".
 
+### Total_Phase_Actual_Spending_Amount
+
+In these NAs each phase is completed. Also each phase is a "Construction" phase. No budget is determined for any observation but every case ahs an estimated costs. So we fill the actual cost with estimated cost to prevent information lost we will do this because pahses are completed and there is an estimated amount. So no change is expected and estimation when when a event occurred become observation.
+
+### DSF_Number(s) 
+
+In this case, each NA occurred at specific project: "LEAD PAINT ABATEMENT". When checked also every "LEAD PAINT ABATEMENT" project has NA DSF numbers. Another thinking point is DSF numbers is about info that connects project to 5 year plan so in terms of project management analysis it has no value. So we can easily drop this column so there will be NA problem also.
+
+## Problematic Values/observations
+
+If a phase has time or budget variables as group of columns it is okey for me we don't seek both of them to be exist but if none is available then no need to hold that observation.
+Giving aggregated statistics is excluded from above statement. So we can only drop values after creating KPI columns.
+
+## KPI
+
+I created schedule compression ratio and cost variqance using following formulas.
 
 
 

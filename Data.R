@@ -1,6 +1,10 @@
 renv::init()
+# ---- Load packages ----
 library(tidyverse)
+# ---- Load data ----
 data <- read_csv("Capital_Project_Schedules_and_Budgets_20250705.csv")
+
+# ---- Prep Data ----
 
 #fixed the colnames
 cnames <- data %>% colnames()
@@ -25,6 +29,7 @@ data %>% filter(Project_Building_Identifier=="K680") %>% view()
 
 summary(data)
 
+# ---- Non data Labels ----
 
 # Examine nondata(date or numeric)
 t5 <- data %>% filter(is.na(as.numeric(Project_Budget_Amount))) %>%
@@ -55,6 +60,12 @@ t1 <- data %>% filter(Project_Status_Name=="PNS") %>%
 label_table <- full_join(t1,t2,by="label") %>% full_join(.,t3,by="label") %>%
   full_join(.,t4,by="label") %>% full_join(.,t5,by="label") %>% knitr::kable()
 
+
+data %>%  filter(Project_Phase_Planned_End_Date!="PNS",
+                 is.na(mdy(Project_Phase_Planned_End_Date)) &
+                 is.na(as.numeric(Project_Budget_Amount))) %>%
+  distinct(Project_Type,Project_Phase_Planned_End_Date,Project_Budget_Amount) %>% knitr::kable()
+
 #get only full rows
 
 
@@ -76,7 +87,7 @@ data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase_Actual_Start
   filter(Project_Status_Name!="PNS") %>% na.omit()
 
 
-#NA plot
+# ---- NAs ----
 
 na_counts <- colSums(is.na(data))
 na_df <- tibble(columns=names(na_counts),na_counts=as.numeric(na_counts))
@@ -109,4 +120,45 @@ data %>% filter(Project_Type=="SCA Furniture & Equipment") %>% view
 
 # Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount
 data %>% filter(is.na(Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount)) %>% view
+
+data %>% filter(Total_Phase_Actual_Spending_Amount==0,Project_Phase_Name=="Construction") %>% view
+
+data %>% filter(Project_Type=="SCA Emergency Response",Total_Phase_Actual_Spending_Amount==0) %>% view
+
+#Total_Phase_Actual_Spending_Amount
+data %>% filter(is.na(Total_Phase_Actual_Spending_Amount))
+
+Total_Phase_Actual_Spending_Amount
+
+#DSF_Number(s)
+data %>% filter(is.na(`DSF_Number(s)`)) %>% view
+
+data %>% filter(Project_Description=="LEAD PAINT ABATEMENT") %>% view
+
+#PNS
+
+data %>% filter(Project_Status_Name=="PNS") %>% view
+
+#NA corrections
+
+data[is.na(data$Project_Phase_Name),"Project_Phase_Name"] <- "Construction"
+data <- data[-(is.na(data$Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount) & data$Project_Phase_Planned_End_Date=="DOES"),]
+
+
+
+# ---- KPI ----
+
+#Date
+correct_date_data <- data %>% mutate(Project_Phase_Actual_Start_Date=lubridate::mdy(Project_Phase_Actual_Start_Date),
+                                     Project_Phase_Actual_End_Date=lubridate::mdy(Project_Phase_Actual_End_Date),
+                                     Project_Phase_Planned_End_Date=lubridate::mdy(Project_Phase_Planned_End_Date))
+
+correct_date_data %>%  filter(Project_Phase_Actual_Start_Date > Project_Phase_Actual_End_Date) %>% view # No problem
+
+correct_date_data %>% mutate(Completion_time = Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date) %>% 
+  arrange(desc(Completion_time)) %>% view
+
+
+
+
 
