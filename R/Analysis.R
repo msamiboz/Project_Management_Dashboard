@@ -78,6 +78,7 @@ correct_date_data %>% ggplot(aes(x=Project_Phase_Actual_Start_Date,y=log(Delay_r
   labs(title = "log Delay Ratio Through Time")
 
 
+
 ## Cost
 
 #We dropped the Inf values to model cost overridden
@@ -112,4 +113,4 @@ correct_cost %>%filter(Project_Status_Name!="PNS",Cost_override<40) %>%
 
 
 save(correct_date_data,file = "data/date_data.Rdata")
-save
+save(correct_cost,file="data/cost_data.Rdata")
