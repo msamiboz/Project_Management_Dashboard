@@ -2,7 +2,7 @@ renv::init()
 # ---- Load packages ----
 library(tidyverse)
 # ---- Load data ----
-data <- read_csv("Capital_Project_Schedules_and_Budgets_20250705.csv")
+data <- read_csv("data/Capital_Project_Schedules_and_Budgets_20250705.csv")
 
 # ---- Prep Data ----
 
@@ -144,19 +144,12 @@ data %>% filter(Project_Status_Name=="PNS") %>% view
 data[is.na(data$Project_Phase_Name),"Project_Phase_Name"] <- "Construction"
 data <- data[-(is.na(data$Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount) & data$Project_Phase_Planned_End_Date=="DOES"),]
 
+data <- data %>% select(- `DSF_Number(s)`)
+
+save(data,file = "data/data_ready.Rdata")
 
 
-# ---- KPI ----
 
-#Date
-correct_date_data <- data %>% mutate(Project_Phase_Actual_Start_Date=lubridate::mdy(Project_Phase_Actual_Start_Date),
-                                     Project_Phase_Actual_End_Date=lubridate::mdy(Project_Phase_Actual_End_Date),
-                                     Project_Phase_Planned_End_Date=lubridate::mdy(Project_Phase_Planned_End_Date))
-
-correct_date_data %>%  filter(Project_Phase_Actual_Start_Date > Project_Phase_Actual_End_Date) %>% view # No problem
-
-correct_date_data %>% mutate(Completion_time = Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date) %>% 
-  arrange(desc(Completion_time)) %>% view
 
 
 

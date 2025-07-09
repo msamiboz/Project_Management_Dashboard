@@ -88,7 +88,17 @@ Giving aggregated statistics is excluded from above statement. So we can only dr
 
 ## KPI
 
-I created schedule compression ratio and cost variqance using following formulas.
+I created delay_ratio and cost_override as my key performance indicators.
 
+### Delay ratio 
 
+$$
+Completion_time = Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date
+Planned_time = Project_Phase_Planned_End_Date-Project_Phase_Actual_Start_Date,
+Delay_ratio = Completion_time / Planned_time
+$$
+
+In this ratio phases with 1 done in exactly planned time, ratios lower than one represent quick completions. Finally more than 1 tells us that project phases with delays. higher the value more the delay in term "times": ratio 2 means phase completed 2 times the amount planned.
+
+### Cost override
 
