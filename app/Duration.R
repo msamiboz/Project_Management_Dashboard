@@ -1,0 +1,1 @@
+page_fluid(plotlyOutput(outputId = "duration_timeseries_plot"))
