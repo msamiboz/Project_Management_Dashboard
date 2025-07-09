@@ -379,8 +379,8 @@ when analyzing.</p>
 </div>
 <div id="comments" class="section level2">
 <h2>Comments</h2>
-<p>Many columns have labeled with certain words, following table
-explains the situation</p>
+<p>Some of the value columns have labeled with certain words, following
+table explains the situation</p>
 <table>
 <colgroup>
 <col width="4%" />
@@ -491,6 +491,177 @@ explains the situation</p>
 </tr>
 </tbody>
 </table>
+<p>When examined I figured out that each label except PNS is about
+project department, we can understand the situation with following
+table;</p>
+<table>
+<colgroup>
+<col width="30%" />
+<col width="40%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Project_Type</th>
+<th align="left">Project_Phase_Planned_End_Date</th>
+<th align="left">Project_Budget_Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SCA IEH</td>
+<td align="left">IEH</td>
+<td align="left">IEH</td>
+</tr>
+<tr class="even">
+<td align="left">DOE - RESOA</td>
+<td align="left">DOER</td>
+<td align="left">DOER</td>
+</tr>
+<tr class="odd">
+<td align="left">DOE - Skilled Trades</td>
+<td align="left">DOES</td>
+<td align="left">DOES</td>
+</tr>
+<tr class="even">
+<td align="left">Fast Track Projects</td>
+<td align="left">FTK</td>
+<td align="left">FTK</td>
+</tr>
+<tr class="odd">
+<td align="left">DIIT - RESOA</td>
+<td align="left">DIIR</td>
+<td align="left">DIIR</td>
+</tr>
+<tr class="even">
+<td align="left">Trust For Public Land</td>
+<td align="left">TPL</td>
+<td align="left">TPL</td>
+</tr>
+<tr class="odd">
+<td align="left">SCA Emergency Response</td>
+<td align="left">EMER</td>
+<td align="left">EMER</td>
+</tr>
+<tr class="even">
+<td align="left">DIIT - Project Connect</td>
+<td align="left">DIIT</td>
+<td align="left">DIIT</td>
+</tr>
+<tr class="odd">
+<td align="left">DOE - Lead Paint</td>
+<td align="left">DOEL</td>
+<td align="left">DOEL</td>
+</tr>
+<tr class="even">
+<td align="left">DOE Managed PRE-K</td>
+<td align="left">DOEP</td>
+<td align="left">DOEP</td>
+</tr>
+</tbody>
+</table>
+<p>So we will convert these labels to NA because this labels does not
+exhibit a information on project apart from the project which is a
+distinct column.</p>
+<p>However, PNS is different. Eventough there is no information on
+metadata(or other resources) about PNS, by examining data thoroughly we
+may conclude that PNS label is about planning. My best guess is PNS
+stands for “Planned - Not Started”</p>
+</div>
+<div id="nas" class="section level2">
+<h2>NAs</h2>
+<div id="project_phase_actual_end_date" class="section level3">
+<h3>Project_Phase_Actual_End_Date</h3>
+<p>Several columns have NA values most crucial one is
+Project_Phase_Actual_End_Date. It has 4533 NA. When examined this is
+equal to amount of Project_Status of In-progress. So these data actually
+is not missing but has not occurred yet so we need to hold the data</p>
+</div>
+<div id="project_phase_name" class="section level3">
+<h3>Project_Phase_Name</h3>
+<p>When examined the single observation of Na in this column we saw that
+by looking other columns values same with other observations this
+observations Phase name could be Construction. This implementation can
+be done because every other column has meaningful values except phase
+name.</p>
+</div>
+<div id="project_phase_planned_end_date" class="section level3">
+<h3>Project_Phase_Planned_End_Date</h3>
+<p>After examination deeply one can find that this columns’ NA occurs
+when project type and if Project status is PNS planned end date is PNS.
+And if it is completed or In-progress it has value NA.This means these
+projects starting with no planned end date. So in this case being NA has
+its own meaning so we cant implement anything that changes mentioned
+structure or drop these values.</p>
+</div>
+<div id="final_estimate_of_actual_costs_through_end_of_phase_amount" class="section level3">
+<h3>Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount</h3>
+<p>Except two cases we can explain these NAs with following
+relationship; Emergency projects with zero actual spending has no
+estimated cost except one case. And another case has no estimated cost
+but it is not an emergency project. The latter case might be dropped out
+but other 16 cases should be handled as “can’t estimate”.</p>
+</div>
+<div id="total_phase_actual_spending_amount" class="section level3">
+<h3>Total_Phase_Actual_Spending_Amount</h3>
+<p>In these NAs each phase is completed. Also each phase is a
+“Construction” phase. No budget is determined for any observation but
+every case ahs an estimated costs. So we fill the actual cost with
+estimated cost to prevent information lost we will do this because
+pahses are completed and there is an estimated amount. So no change is
+expected and estimation when when a event occurred become
+observation.</p>
+</div>
+<div id="dsf_numbers" class="section level3">
+<h3>DSF_Number(s)</h3>
+<p>In this case, each NA occurred at specific project: “LEAD PAINT
+ABATEMENT”. When checked also every “LEAD PAINT ABATEMENT” project has
+NA DSF numbers. Another thinking point is DSF numbers is about info that
+connects project to 5 year plan so in terms of project management
+analysis it has no value. So we can easily drop this column so there
+will be NA problem also.</p>
+</div>
+</div>
+<div id="problematic-valuesobservations" class="section level2">
+<h2>Problematic Values/observations</h2>
+<p>If a phase has time or budget variables as group of columns it is
+okey for me we don’t seek both of them to be exist but if none is
+available then no need to hold that observation. Giving aggregated
+statistics is excluded from above statement. So we can only drop values
+after creating KPI columns.</p>
+</div>
+<div id="kpi" class="section level2">
+<h2>KPI</h2>
+<p>I created delay_ratio and cost_override as my key performance
+indicators.</p>
+<div id="delay-ratio" class="section level3">
+<h3>Delay ratio</h3>
+<p><span class="math display">\[
+Completion_time =
+Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date
+Planned_time =
+Project_Phase_Planned_End_Date-Project_Phase_Actual_Start_Date,
+Delay_ratio = Completion_time / Planned_time
+\]</span></p>
+<p>In this ratio phases with 1 done in exactly planned time, ratios
+lower than one represent quick completions. Finally more than 1 tells us
+that project phases with delays. higher the value more the delay in term
+“times”: ratio 2 means phase completed 2 times the amount planned.</p>
+<p>Two observations have negative delay ratios means that actual start
+date is after planned end date which is a mistake most prpbbaly project
+phase is postponed due to previous phases lags. Because we cannot
+analyze it we drop these two values. Another 16 observation is removed
+temporarily to be able model Delay ratio. These observation have zero
+delay ratio which means they finished the phase asme day they
+started.</p>
+</div>
+<div id="cost-override" class="section level3">
+<h3>Cost override</h3>
+<p><span class="math display">\[
+\text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} -
+\text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
+\]</span></p>
+</div>
 </div>
 </div>
 

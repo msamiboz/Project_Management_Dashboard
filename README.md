@@ -48,7 +48,7 @@ When examined I figured out that each label except PNS is about project departme
 |DOE - Lead Paint       |DOEL                           |DOEL                  |
 |DOE Managed PRE-K      |DOEP                           |DOEP                  |
 
-So we will convert these labels to NA because this labels does not exhibit a information on project apart from the project which is a distinct column.
+So we will convert these labels to NA because this labels does not exhibit a information on project apart from the project type which is a distinct column.
 
 However, PNS is different. Eventough there is no information on metadata(or other resources) about PNS, by examining data thoroughly we may conclude that PNS label is about planning. My best guess is PNS stands for "Planned - Not Started"
 
@@ -86,6 +86,12 @@ In this case, each NA occurred at specific project: "LEAD PAINT ABATEMENT". When
 If a phase has time or budget variables as group of columns it is okey for me we don't seek both of them to be exist but if none is available then no need to hold that observation.
 Giving aggregated statistics is excluded from above statement. So we can only drop values after creating KPI columns.
 
+
+## Last Manipulations
+
+In Project Phase names "CM,Art,F&E","CM","F&E","CM,F&E" is merged and named "CM,F&E". Because these are not so different from each other and have small number of observations.
+
+
 ## KPI
 
 I created delay_ratio and cost_override as my key performance indicators.
@@ -100,5 +106,18 @@ $$
 
 In this ratio phases with 1 done in exactly planned time, ratios lower than one represent quick completions. Finally more than 1 tells us that project phases with delays. higher the value more the delay in term "times": ratio 2 means phase completed 2 times the amount planned.
 
+Two observations have negative delay ratios means that actual start date is after planned end date which is a mistake most prpbbaly project phase is postponed due to previous phases lags. Because we cannot analyze it we drop these two values.
+Another 16 observation is removed temporarily to be able model Delay ratio. These observation have zero delay ratio which means they finished the phase asme day they started.
+
+Another reamrk to keep in mind is becuase this is created on ended project phase this column dont give any insgiht about planning (PNS) or inprogress phases.
+Also because scope and desing is early steps of a project each completed construction phase have completed scope and desing inverse is obivouly not true. So analysis contains this column have
 ### Cost override
+
+$$
+\text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} - \text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
+$$
+
+
+
+
 

@@ -13,7 +13,7 @@ colnames(data) <- cnames_new
 data
 
 #Examine the data
-data %>% view()
+
 str(data)
 
 data %>% distinct(Project_Building_Identifier,
@@ -24,8 +24,6 @@ data %>% group_by(Project_Building_Identifier,Project_School_Name,
                   Project_Description,Project_Phase_Name,`DSF_Number(s)`) %>% 
   summarise(count=n()) %>% filter(count>1)
 
-
-data %>% filter(Project_Building_Identifier=="K680") %>% view()
 
 summary(data)
 
@@ -69,15 +67,9 @@ data %>%  filter(Project_Phase_Planned_End_Date!="PNS",
 #get only full rows
 
 
-full_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase_Actual_Start_Date),
-                Project_Phase_Planned_End_Date = mdy(Project_Phase_Planned_End_Date),
-                Project_Phase_Actual_End_Date = mdy(Project_Phase_Actual_End_Date),
-                Project_Budget_Amount = as.numeric(Project_Budget_Amount)) %>% 
-  filter(Project_Status_Name!="PNS") %>% na.omit()
+
 
 full_data %>% distinct(Project_Status_Name)
-
-data %>% filter(Project_Status_Name=="Complete") %>% filter(!complete.cases(.)) %>% view
 
 
 data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase_Actual_Start_Date),
@@ -105,7 +97,7 @@ data %>% select(Project_Status_Name,Project_Phase_Actual_End_Date) %>%
 
 
 # Project_Phase_Name
-data %>% filter(is.na(Project_Phase_Name)) %>% view
+data %>% filter(is.na(Project_Phase_Name))
 
 data %>% filter(Project_Budget_Amount=="DOER",Project_Status_Name=="PNS") %>%
   summarise(count=n(),.by=Project_Phase_Name)
@@ -113,17 +105,17 @@ data %>% filter(Project_Budget_Amount=="DOER",Project_Status_Name=="PNS") %>%
 
 # Project_Phase_Planned_End_Date
 
-data %>% filter(is.na(Project_Phase_Planned_End_Date)) %>% view
+data %>% filter(is.na(Project_Phase_Planned_End_Date))
 
 
-data %>% filter(Project_Type=="SCA Furniture & Equipment") %>% view
+data %>% filter(Project_Type=="SCA Furniture & Equipment") 
 
 # Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount
-data %>% filter(is.na(Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount)) %>% view
+data %>% filter(is.na(Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount)) 
 
-data %>% filter(Total_Phase_Actual_Spending_Amount==0,Project_Phase_Name=="Construction") %>% view
+data %>% filter(Total_Phase_Actual_Spending_Amount==0,Project_Phase_Name=="Construction") 
 
-data %>% filter(Project_Type=="SCA Emergency Response",Total_Phase_Actual_Spending_Amount==0) %>% view
+data %>% filter(Project_Type=="SCA Emergency Response",Total_Phase_Actual_Spending_Amount==0) 
 
 #Total_Phase_Actual_Spending_Amount
 data %>% filter(is.na(Total_Phase_Actual_Spending_Amount))
@@ -131,13 +123,13 @@ data %>% filter(is.na(Total_Phase_Actual_Spending_Amount))
 Total_Phase_Actual_Spending_Amount
 
 #DSF_Number(s)
-data %>% filter(is.na(`DSF_Number(s)`)) %>% view
+data %>% filter(is.na(`DSF_Number(s)`)) 
 
-data %>% filter(Project_Description=="LEAD PAINT ABATEMENT") %>% view
+data %>% filter(Project_Description=="LEAD PAINT ABATEMENT") 
 
 #PNS
 
-data %>% filter(Project_Status_Name=="PNS") %>% view
+data %>% filter(Project_Status_Name=="PNS") 
 
 #NA corrections
 
@@ -145,6 +137,12 @@ data[is.na(data$Project_Phase_Name),"Project_Phase_Name"] <- "Construction"
 data <- data[-(is.na(data$Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount) & data$Project_Phase_Planned_End_Date=="DOES"),]
 
 data <- data %>% select(- `DSF_Number(s)`)
+
+data <- data %>% mutate(Project_Phase_Name = case_when(Project_Phase_Name == "CM,Art,F&E" ~ "CM,F&E",
+                          Project_Phase_Name == "CM" ~ "CM,F&E",
+                          Project_Phase_Name == "F&E" ~ "CM,F&E",
+                          .default = Project_Phase_Name))
+
 
 save(data,file = "data/data_ready.Rdata")
 
