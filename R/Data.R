@@ -18,7 +18,7 @@ str(data)
 
 data %>% distinct(Project_Building_Identifier,
                   Project_School_Name,
-                  Project_Description,Project_Phase_Name,`DSF_Number(s)`)
+                  Project_Description,Project_Phase_Name)
 
 data %>% group_by(Project_Building_Identifier,Project_School_Name,
                   Project_Description,Project_Phase_Name,`DSF_Number(s)`) %>% 

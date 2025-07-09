@@ -114,3 +114,45 @@ correct_cost %>%filter(Project_Status_Name!="PNS",Cost_override<40) %>%
 
 save(correct_date_data,file = "data/date_data.Rdata")
 save(correct_cost,file="data/cost_data.Rdata")
+
+### Time series analysis
+
+
+full_data <- full_data %>% mutate(Completion_time = Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date,
+                     Planned_time = Project_Phase_Planned_End_Date-Project_Phase_Actual_Start_Date,
+                     Delay_ratio = as.double.difftime(Completion_time) / as.double.difftime(Planned_time)) %>%
+  mutate(Cost_override= (Total_Phase_Actual_Spending_Amount - Project_Budget_Amount)/Project_Budget_Amount)
+
+library(caret)
+
+#will continue
+
+
+
+###
+
+data %>% group_by(Project_Building_Identifier,Project_School_Name,Project_Description) %>%
+  summarise(complete_count=sum(Project_Status_Name=="Complete"),
+            inprogress_count=sum(Project_Status_Name=="In-Progress"),count=n()) %>%
+  mutate(completion_ratio=complete_count/count,
+         inprogress_ratio=inprogress_count/count)
+
+
+
+data %>% group_by(Project_Building_Identifier,Project_School_Name,Project_Description) %>% 
+  summarise(project_budgetsum=)
+
+full_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase_Actual_Start_Date),
+                             Project_Phase_Planned_End_Date = mdy(Project_Phase_Planned_End_Date),
+                             Project_Phase_Actual_End_Date = mdy(Project_Phase_Actual_End_Date),
+                             Project_Budget_Amount = as.numeric(Project_Budget_Amount)) %>% 
+  group_by(Project_Building_Identifier,Project_School_Name,Project_Description) %>% 
+  summarise(Project_Start_Date=min(Project_Phase_Actual_Start_Date),
+            Project_Planned_End_Date=max(Project_Phase_Planned_End_Date),
+            Project_Actual_End_Date=max(Project_Phase_Actual_End_Date),
+            Project_Budget_Amount=sum(Project_Budget_Amount),
+            Project_Spending = sum(Total_Phase_Actual_Spending_Amount))
+
+
+
+
