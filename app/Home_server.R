@@ -1,4 +1,4 @@
-load("../data/data_ready.Rdata")
+
 
 output$home_pie_plot <- renderPlot({
 

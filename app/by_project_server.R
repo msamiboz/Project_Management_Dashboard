@@ -1,4 +1,4 @@
-load("../data/data_ready.Rdata")
+
 data1 <- data %>% group_by(Project_Building_Identifier,Project_School_Name,Project_Description) %>%
   summarise(complete_count=sum(Project_Status_Name=="Complete"),
             inprogress_count=sum(Project_Status_Name=="In-Progress"),count=n()) %>%
