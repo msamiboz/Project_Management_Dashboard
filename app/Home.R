@@ -1,9 +1,7 @@
 page_fluid(
-  selectInput(inputId = "column",
-                       label="Select a column to plot",
-                       choices=list("Project_Phase_Name","Project_Status_Name","Project_Type")),
-  
-  plotOutput(outputId = "home_pie_plot")
+ HTML("<p>In this app Users can dive into Project duration and cost analyese done on Data.gov: Capital Project Schedules and Budgets dataset.</p>"),
+ HTML("<p>Also to observe projects and examine the critical projects in perspectiv edof project as a whole or phases one can use respective panels.</p>"),
+ tags$footer("This app is designed by Mehmet Sami Boz",style="position:fixed;bottom:0;")
            
            
            

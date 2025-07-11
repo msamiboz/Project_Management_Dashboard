@@ -23,7 +23,7 @@ $$
         <li> Most interestingly Furniture phase is significantly much higher cost overrun than Construction, Desing and Scope phases.</li>
         <li> For geographic district each increase in number decreases the cost overrun (look image for understanding geographic districts)</li>
       </ul> The exact values can be seen above </p>"),
-  imageOutput(outputId = "duration_geo_image",width = "275px",height = "245px"),
+  imageOutput(outputId = "cost_geo_image",width = "275px",height = "245px"),
   HTML("<p>As A last remark coefficients table as you see above effects cost overrun by like this: being PNS as a status, change cost overrun by multiplying  -0.96.<br>
        For example if a phase become PNS to completed (all other thing are equal) cost overrun become -0.48 to 0.5 (numbers are random) </p>")
   

@@ -10,8 +10,8 @@ library(bslib)
 #thematic::thematic_shiny()
 
 server <- function(input,output,session){
-  load("../data/data_ready.Rdata")
-  load("../data/date_data.Rdata")
+  load("data_ready.Rdata")
+  load("date_data.Rdata")
   
   
   source("Duration_server.R",local = T)

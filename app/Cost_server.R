@@ -28,3 +28,7 @@ output$cost_coefs <- renderTable({
   coefs <- (exp(coef(model_cost1))-1)
   enframe(coefs)
 })
+
+output$cost_geo_image <- renderImage({
+  list(src="www/nyc_geo_district.gif")
+},deleteFile = F)

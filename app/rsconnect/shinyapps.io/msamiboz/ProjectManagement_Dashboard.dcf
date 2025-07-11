@@ -1,0 +1,12 @@
+name: ProjectManagement_Dashboard
+title: ProjectManagement_Dashboard
+username: msamiboz
+account: msamiboz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 15062821
+bundleId: 10600203
+url: https://msamiboz.shinyapps.io/ProjectManagement_Dashboard/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
