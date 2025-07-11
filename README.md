@@ -99,25 +99,27 @@ I created delay_ratio and cost_override as my key performance indicators.
 ### Delay ratio 
 
 $$
-Completion_time = Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date
-Planned_time = Project_Phase_Planned_End_Date-Project_Phase_Actual_Start_Date,
-Delay_ratio = Completion_time / Planned_time
+\text{Completion_time} = \text{Project_Phase_Actual_End_Date}-\text{Project_Phase_Actual_Start_Date} \\
+\text{Planned_time} = \text{Project_Phase_Planned_End_Date}-\text{Project_Phase_Actual_Start_Date} \\
+\text{Delay_ratio} = \frac{\text{Completion_time}}{\text{Planned_time}} 
 $$
 
 In this ratio phases with 1 done in exactly planned time, ratios lower than one represent quick completions. Finally more than 1 tells us that project phases with delays. higher the value more the delay in term "times": ratio 2 means phase completed 2 times the amount planned.
 
 Two observations have negative delay ratios means that actual start date is after planned end date which is a mistake most prpbbaly project phase is postponed due to previous phases lags. Because we cannot analyze it we drop these two values.
-Another 16 observation is removed temporarily to be able model Delay ratio. These observation have zero delay ratio which means they finished the phase asme day they started.
+Another 16 observation is removed temporarily to be able model Delay ratio. These observation have zero delay ratio which means they finished the phase same day they started.
 
-Another reamrk to keep in mind is becuase this is created on ended project phase this column dont give any insgiht about planning (PNS) or inprogress phases.
-Also because scope and desing is early steps of a project each completed construction phase have completed scope and desing inverse is obivouly not true. So analysis contains this column have
+Another remark to keep in mind is because this is created on ended project phase this column don't give any insight about planning (PNS) or in progress phases.
+Also because scope and design is early steps of a project each completed construction phase have completed scope and design inverse is obliviously not true. So analysis contains these values much more than others.
 ### Cost override
 
 $$
 \text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} - \text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
 $$
 
+## References
 
+https://teachnyc.zendesk.com/hc/en-us/articles/360043956952-How-is-NYC-divided-into-school-districts
 
 
 

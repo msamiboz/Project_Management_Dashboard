@@ -8,6 +8,8 @@ library(DT)
 server <- function(input,output,session){
   load("../data/data_ready.Rdata")
   load("../data/date_data.Rdata")
+  bs_theme(preset = "united")
+  thematic::thematic_shiny()
   source("Duration_server.R",local = T)
 
   source("Home_server.R",local = T)

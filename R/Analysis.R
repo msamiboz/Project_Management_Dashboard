@@ -49,10 +49,10 @@ correct_date_data %>% ggplot(aes(x=Project_Phase_Actual_Start_Date,y=Delay_ratio
   geom_smooth()+
   theme_classic()
 
-# to understand the delay ratio in time I looked its disrtibution, it does not contain any nonnegative values and it is continuos exponential distribution is suitable for it 
+# to understand the delay ratio in time I looked its distribution, it does not contain any nonnegative values and it is continuos exponential distribution is suitable for it 
 
 correct_date_data %>% ggplot(aes(x=Delay_ratio))+
-  geom_histogram(aes(y=after_stat(density)),binwidth = 0.1)+
+  geom_histogram(aes(y=after_stat(density)),binwidth = 0.4)+
   theme_classic()+
   labs(title="Distribution of Delay Ratio")
 
@@ -77,7 +77,11 @@ correct_date_data %>% ggplot(aes(x=Project_Phase_Actual_Start_Date,y=log(Delay_r
   theme_classic()+
   labs(title = "log Delay Ratio Through Time")
 
-
+correct_date_data %>% ggplot(aes(x=Project_Phase_Actual_Start_Date,y=log(Delay_ratio)))+
+  geom_point()+
+  geom_smooth()+
+  theme_()+
+  labs(title = "log Delay Ratio Through Time")
 
 ## Cost
 

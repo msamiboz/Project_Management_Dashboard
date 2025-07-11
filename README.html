@@ -561,7 +561,7 @@ table;</p>
 </tbody>
 </table>
 <p>So we will convert these labels to NA because this labels does not
-exhibit a information on project apart from the project which is a
+exhibit a information on project apart from the project type which is a
 distinct column.</p>
 <p>However, PNS is different. Eventough there is no information on
 metadata(or other resources) about PNS, by examining data thoroughly we
@@ -630,6 +630,12 @@ available then no need to hold that observation. Giving aggregated
 statistics is excluded from above statement. So we can only drop values
 after creating KPI columns.</p>
 </div>
+<div id="last-manipulations" class="section level2">
+<h2>Last Manipulations</h2>
+<p>In Project Phase names “CM,Art,F&amp;E”,“CM”,“F&amp;E”,“CM,F&amp;E”
+is merged and named “CM,F&amp;E”. Because these are not so different
+from each other and have small number of observations.</p>
+</div>
 <div id="kpi" class="section level2">
 <h2>KPI</h2>
 <p>I created delay_ratio and cost_override as my key performance
@@ -637,11 +643,13 @@ indicators.</p>
 <div id="delay-ratio" class="section level3">
 <h3>Delay ratio</h3>
 <p><span class="math display">\[
-Completion_time =
-Project_Phase_Actual_End_Date-Project_Phase_Actual_Start_Date
-Planned_time =
-Project_Phase_Planned_End_Date-Project_Phase_Actual_Start_Date,
-Delay_ratio = Completion_time / Planned_time
+\text{Completion_time} =
+\text{Project_Phase_Actual_End_Date}-\text{Project_Phase_Actual_Start_Date}
+\\
+\text{Planned_time} =
+\text{Project_Phase_Planned_End_Date}-\text{Project_Phase_Actual_Start_Date}
+\\
+\text{Delay_ratio} = \frac{\text{Completion_time}}{\text{Planned_time}}
 \]</span></p>
 <p>In this ratio phases with 1 done in exactly planned time, ratios
 lower than one represent quick completions. Finally more than 1 tells us
@@ -652,11 +660,14 @@ date is after planned end date which is a mistake most prpbbaly project
 phase is postponed due to previous phases lags. Because we cannot
 analyze it we drop these two values. Another 16 observation is removed
 temporarily to be able model Delay ratio. These observation have zero
-delay ratio which means they finished the phase asme day they
+delay ratio which means they finished the phase same day they
 started.</p>
-</div>
-<div id="cost-override" class="section level3">
-<h3>Cost override</h3>
+<p>Another remark to keep in mind is because this is created on ended
+project phase this column don’t give any insight about planning (PNS) or
+in progress phases. Also because scope and design is early steps of a
+project each completed construction phase have completed scope and
+design inverse is obliviously not true. So analysis contains these
+values much more than others. ### Cost override</p>
 <p><span class="math display">\[
 \text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} -
 \text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
