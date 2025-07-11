@@ -7,7 +7,7 @@ library(DT)
 library(bslib)
 
 
-thematic::thematic_shiny()
+#thematic::thematic_shiny()
 
 server <- function(input,output,session){
   load("../data/data_ready.Rdata")
