@@ -44,7 +44,7 @@ output$byproject_ratios <- renderText({
 
 output$byproject_datatable <- DT::renderDT({
   if(input$byproject_warning_button){
-    datatable(data_warning()) %>% formatStyle(columns = "Warning",
+    datatable(data_warning(),filter="top") %>% formatStyle(columns = "Warning",
                                            target = "row",
                                            backgroundColor = styleEqual(c("Delay and Cost Overrun","Delay","Cost Overrun","Ok!"),
                                                                         c("red","yellow","orange","white")

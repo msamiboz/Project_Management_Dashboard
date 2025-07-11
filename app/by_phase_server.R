@@ -7,8 +7,8 @@ warning_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Ph
          Warning=case_when(
            Cost_ratio > 1 & Project_Budget_Amount > 0 & Delay < 0 ~ "Critical Cost Overrun and Delay Warning",
            Cost_ratio > 1 & Project_Budget_Amount > 0 ~ "Realized Cost Overrun Warning",
-           Delay > 0 ~ "Delay warning",
-           Project_Status_Name=="In-Progress" & Project_Phase_Planned_End_Date < as.Date("2025-03-31") ~ "Delay warning",
+           Delay > 0 ~ "Realized Delay Warning",
+           Project_Status_Name=="In-Progress" & Project_Phase_Planned_End_Date < as.Date("2025-03-31") ~ "Early Delay Warning",
            Final_Estimate_of_Actual_Costs_Through_End_of_Phase_Amount > Project_Budget_Amount & Project_Budget_Amount > 0 ~ "Early Cost Overrun Warning",
            TRUE ~ "OK"
          ))

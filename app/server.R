@@ -21,4 +21,6 @@ server <- function(input,output,session){
   source("by_project_server.R",local=T)
   
   source("by_phase_server.R",local=T)
+  
+  source("Cost_server.R",local=T)
 }
