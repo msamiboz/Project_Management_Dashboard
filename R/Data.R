@@ -1,4 +1,3 @@
-renv::init()
 # ---- Load packages ----
 library(tidyverse)
 # ---- Load data ----
