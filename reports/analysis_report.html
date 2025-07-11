@@ -366,7 +366,7 @@ project. Phase has values of actual start date,planned end date, actual
 end date,budget,estimate of actual costs,actual spending.</p>
 <p>Some projects have same building several schools for schools there
 are several buildings. And for some cases for same building same school
-same project the job entered 5 year plane with different name and for
+same project the job entered 5 year plan with different name. And for
 some rare cases. Eventough they are under the same number in the 5 year
 plan, project phase conducted again.</p>
 <p>Due to these causes we can identify phases of ordinary projects with
@@ -752,12 +752,14 @@ values much more than others.</p>
 \text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} -
 \text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
 \]</span></p>
-<div id="by-project" class="section level4">
-<h4>By project</h4>
-</div>
-<div id="by-phase" class="section level4">
-<h4>By phase</h4>
-</div>
+<p>If actual spending is more than the budget cost ratio will be
+positive. If the value is negative then project phase is in the safe
+zone.</p>
+<p>There are some (namely 437) zero budget phases with this formula that
+zeros becomes Infinity. So we drop these cases to analyze further.</p>
+<p>Some project phases multiplied budgets so we see so big values in
+this ratio like 141. there are 10 observation with ratio above 10
+(actual spending is ten times budget amount).</p>
 </div>
 </div>
 <div id="modelling" class="section level2">
@@ -767,13 +769,13 @@ values much more than others.</p>
 <div id="duration" class="section level4">
 <h4>Duration</h4>
 <p>To model and understand delays in this dataset we modeled deep
-information about analysis can be found in the app link[]</p>
+information about analysis can be found in the app.</p>
 </div>
 <div id="cost" class="section level4">
 <h4>Cost</h4>
 <p>Same as above for Costs paths I built a statistical model to
 understand relationship between other variables and costs. Deep
-explanation including interpretation can be found in link[]</p>
+explanation including interpretation can be found in the shiny app.</p>
 </div>
 </div>
 </div>
@@ -853,6 +855,56 @@ my plots do not react to dark mode in the shiny app.</p>
 </div>
 <div id="dictionary" class="section level2">
 <h2>Dictionary</h2>
+<p><strong>PNS</strong> Term found in dataset guessed as it stands for
+planning</p>
+<p><strong>Early Cost Overrun Warning</strong> this warning determined
+by comparing estimate spending is higher than budget. Phase level.</p>
+<p><strong>Realized Cost Overrun Warning</strong> this warning
+determined by comparing actual spending is higher than the budget. Phase
+level.</p>
+<p><strong>Realized Delay Warning</strong> Actual end date is later than
+planned end date. Phase level</p>
+<p><strong>Early Delay Warning</strong> For In-progress phases that
+planned end date is later than dataset time which is last end date
+observed: end of March 2025. Phase level</p>
+<p><strong>Critical Cost Overrun and Delay Warning</strong> Raised if
+both Cost and delay warnings are active.Phase level.</p>
+<p><strong>Project Geographic District</strong> District where building
+is located</p>
+<p><strong>Project Building Identifier</strong> Building ID</p>
+<p><strong>Project School Name</strong> School name</p>
+<p><strong>Project Type</strong> Type of project based on funding</p>
+<p><strong>Project Description</strong> Component(s) of work to be
+done</p>
+<p><strong>Project Phase Name</strong> Examples Scope , Design &amp;
+Construction</p>
+<p><strong>Project Status Name</strong> Within the phase more detail,
+i.e. In-Progress, Hold</p>
+<p><strong>Project Phase Actual Start Date</strong> Date phase actually
+started</p>
+<p><strong>Project Phase Planned End Date</strong> Date phase originally
+scheduled to be completed</p>
+<p><strong>Project Phase Actual End Date</strong> Date phase actually
+completed</p>
+<p><strong>Project Budget Amount</strong> Award base budget by phase</p>
+<p><strong>Final Estimate of Actual Costs Through End of Phase
+Amount</strong> Current projected final estimate at completion of
+project by phase</p>
+<p><strong>Total Phase Actual Spending Amount</strong> Actual cumulative
+expenditures by phase</p>
+<p><strong>DSF Number(s)</strong> Number used to identify project in
+Five Year Plan</p>
+<p><strong>Phase</strong> Each seperate part of a project</p>
+<p><strong>KPI</strong> Key performance indicator</p>
+<p><strong>EDA</strong> Explotary data analysis</p>
+<p><strong>CM,F&amp;E</strong> Construction Management, Furniture &amp;
+Equipment – (Guessed)</p>
+<p><strong>Construction</strong> Main construction phase – (Guessed)</p>
+<p><strong>Design</strong> Architectural and engineering design –
+(Guessed)</p>
+<p><strong>Purch &amp; Install</strong> Purchase and Installation –
+(Guessed)</p>
+<p><strong>Scope</strong> Scoping and pre-design – (Guessed)</p>
 </div>
 
 
