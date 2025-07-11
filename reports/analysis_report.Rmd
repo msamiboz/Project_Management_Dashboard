@@ -21,7 +21,7 @@ Data.gov: Capital Project Schedules and Budgets.
 
 After examination one can say that each row represents a phase in a project. Phase has values of actual start date,planned end date, actual end date,budget,estimate of actual costs,actual spending.
 
-Some projects have same building several schools for schools there are several buildings. And for some cases for same building same school same project the job entered 5 year plane with different name and for some rare cases. Eventough they are under the same number in the 5 year plan, project phase conducted again.
+Some projects have same building several schools for schools there are several buildings. And for some cases for same building same school same project the job entered 5 year plan with different name. And for some rare cases. Eventough they are under the same number in the 5 year plan, project phase conducted again.
 
 Due to these causes we can identify phases of ordinary projects with building identifier, school name, project description,phase name for repeated projects we'll use DSF_numbers and actual start time. geographic district,project type variables can be used for filtering when analyzing.
 
@@ -189,11 +189,11 @@ $$
 \text{Cost_override}= \frac{\text{Total_Phase_Actual_Spending_Amount} - \text{Project_Budget_Amount}}{\text{Project_Budget_Amount}}
 $$
 
+If actual spending is more than the budget cost ratio will be positive. If the value is negative then project phase is in the safe zone.
 
+There are some (namely 437) zero budget phases with this formula that zeros becomes Infinity. So we drop these cases to analyze further.
 
-#### By project
-
-#### By phase
+Some project phases multiplied budgets so we see so big values in this ratio like 141. there are 10 observation with ratio above 10 (actual spending is ten times budget amount).
 
 ## Modelling
 
@@ -201,11 +201,11 @@ $$
 
 #### Duration
 
-To model and understand delays in this dataset we modeled deep information about analysis can be found in the app link[]
+To model and understand delays in this dataset we modeled deep information about analysis can be found in the app.
 
 #### Cost
 
-Same as above for Costs paths I built a statistical model to understand relationship between other variables and costs. Deep explanation including interpretation can be found in link[]
+Same as above for Costs paths I built a statistical model to understand relationship between other variables and costs. Deep explanation including interpretation can be found in the shiny app.
 
 ## Shiny
 
