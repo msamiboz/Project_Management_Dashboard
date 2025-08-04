@@ -62,6 +62,10 @@ renv.lock
 renv::restore()
 ```
 
+## Development
+
+On features branch:
+- Implemented a Chat page using [querychat](https://github.com/posit-dev/querychat). With that one can examine a dataset using natural language
 
 
 ## References
