@@ -16,7 +16,7 @@ full_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase
             Project_Actual_End_Date=max(Project_Phase_Actual_End_Date),
             Project_Budget_Amount=sum(Project_Budget_Amount),
             Project_Spending = sum(Total_Phase_Actual_Spending_Amount)) %>% 
-  mutate(Cost_ratio = Project_Spending/(Project_Budget_Amount+1e-5),
+  mutate(Cost_ratio = round(Project_Spending/(Project_Budget_Amount+1e-5),digits = 2),
          delay=Project_Planned_End_Date-Project_Actual_End_Date)
 
 
@@ -44,14 +44,31 @@ output$byproject_ratios <- renderText({
 
 output$byproject_datatable <- DT::renderDT({
   if(input$byproject_warning_button){
-    datatable(data_warning(),filter="top") %>% formatStyle(columns = "Warning",
-                                           target = "row",
-                                           backgroundColor = styleEqual(c("Delay and Cost Overrun","Delay","Cost Overrun","Ok!"),
-                                                                        c("red","yellow","orange","white")
+    datatable(data_warning(),filter="top",
+              selection = "none",
+              extensions = c("Scroller"),
+              options = list(scrollY=650,
+                             scrollX=500,
+                             autoWidth=FALSE,
+                             scroller=TRUE),
+              rownames = FALSE) %>%
+      formatStyle(columns = "Warning",
+                  target = "row",
+                  backgroundColor = styleEqual(c("Delay and Cost Overrun",
+                                                 "Delay",
+                                                 "Cost Overrun",
+                                                 "Ok!"),
+                                               c("red","yellow","orange","white")
                                                                         )
                                            )
   }else{
-    datatable(full_data)
+    datatable(full_data,
+              extensions = c("Scroller"),
+              options = list(scrollY=650,
+                             scrollX=500,
+                             autoWidth=FALSE,
+                             scroller=TRUE),
+              rownames = FALSE)
   }
 }
 )
