@@ -34,7 +34,7 @@ full_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase
                              Project_Phase_Actual_End_Date = mdy(Project_Phase_Actual_End_Date),
                              Project_Budget_Amount = as.numeric(Project_Budget_Amount)) %>% 
   filter(Project_Status_Name!="PNS") %>% na.omit()
-
+save(full_data,file = "data/clean_data.Rdata")
 
 #Plots
 

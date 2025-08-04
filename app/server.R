@@ -5,13 +5,25 @@ library(plotly)
 library(shinyalert)
 library(DT)
 library(bslib)
+library(querychat)
+library(purrr)
 
 
 #thematic::thematic_shiny()
+load("data_ready.Rdata")
+load("date_data.Rdata")
+load("clean_data.Rdata")
+
+readRenviron("keys.Renviron")
+data_source <- querychat_data_source(full_data)
+
+querychat_config <- querychat_init(data_source = data_source,
+                                   create_chat_func = purrr::partial(ellmer::chat_google_gemini,model="gemini-1.5-flash-latest"))
+
+
 
 server <- function(input,output,session){
-  load("data_ready.Rdata")
-  load("date_data.Rdata")
+
   
   
   source("Duration_server.R",local = T)
@@ -23,4 +35,7 @@ server <- function(input,output,session){
   source("by_phase_server.R",local=T)
   
   source("Cost_server.R",local=T)
+  
+  source("chat_server.R",local=T)
+  
 }

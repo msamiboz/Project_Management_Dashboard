@@ -11,6 +11,7 @@ ui <- page_navbar(
   nav_panel("Cost",source("Cost.R",local = T)$value),
   nav_panel("By Project",source("by_project.R",local=T)$value),
   nav_panel("By Phase",source("by_phase.R",local=T)$value),
+  nav_panel("Chat",source("chat.R",local = T)$value),
   nav_item(input_dark_mode()),
   title = "Project Management Dashboard",
   id="page"
