@@ -19,6 +19,13 @@ full_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Phase
   mutate(Cost_ratio = round(Project_Spending/(Project_Budget_Amount+1e-5),digits = 2),
          delay=Project_Planned_End_Date-Project_Actual_End_Date)
 
+data_warning <- 
+  full_data %>% mutate(Warning = case_when(
+    delay > 0 & Cost_ratio > 1 ~ "Delay and Cost Overrun",
+    delay > 0 ~ "Delay",
+    Cost_ratio > 1 ~ "Cost Overrun",
+    TRUE ~ "Ok!")
+  )
 
 output$byproject_ratios <- renderText({
   if(input$byproject_completion_switch){
@@ -42,23 +49,25 @@ output$byproject_ratios <- renderText({
 }
 )
 
-output$byproject_datatable <- DT::renderDT({
+output$byproject_datatable <- DT::renderDataTable({
   if(input$byproject_warning_button){
-    datatable(data_warning(),filter="top",
+    DT::datatable(data_warning,filter="top",
+                  style="default",
               selection = "none",
               extensions = c("Scroller"),
-              options = list(scrollY=650,
+              options = list(stripeClasses=NULL,
+                             scrollY=650,
                              scrollX=500,
                              autoWidth=FALSE,
                              scroller=TRUE),
               rownames = FALSE) %>%
-      formatStyle(columns = "Warning",
+      DT::formatStyle(columns = "Warning",
                   target = "row",
                   backgroundColor = styleEqual(c("Delay and Cost Overrun",
                                                  "Delay",
                                                  "Cost Overrun",
                                                  "Ok!"),
-                                               c("red","yellow","orange","white")
+                                               c("#df382c","#efb73e","#e95420","transparent")
                                                                         )
                                            )
   }else{
@@ -73,17 +82,11 @@ output$byproject_datatable <- DT::renderDT({
 }
 )
 
-data_warning <- eventReactive(input$byproject_warning_button,{
-  full_data %>% mutate(Warning = case_when(
-    delay > 0 & Cost_ratio > 1 ~ "Delay and Cost Overrun",
-    delay > 0 ~ "Delay",
-    Cost_ratio > 1 ~ "Cost Overrun",
-    TRUE ~ "Ok!")
-    )
-})
+
+
 
 observeEvent(input$byproject_warning_button,{
-  warned_projects <- data_warning() %>% filter(Warning != "Ok!")
+  warned_projects <- data_warning %>% filter(Warning %in% isolate(input$warning_type))
   if (nrow(warned_projects)>0) {
     shinyalert(title = "Warning!",
                text = paste(nrow(warned_projects),"projects need attention"),

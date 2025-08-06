@@ -26,6 +26,18 @@ page_fluid(
           
           ),
     column(8,
+           HTML("<p>These are options for the warnings</p>"),
+           fluidRow(column(4,tooltip(HTML("<p>Delay</p>"),"There is a delay in the project")),
+                      column(4,tooltip(HTML("<p>Cost</p>"),"Cost Ratio is over 1")),
+                      column(4,tooltip(HTML("<p>Both</p>"),"There is a delay and cost ratio is over 1"))),
+           selectizeInput("warning_type",
+                          "Select warnings to consider:",
+                          list("Cost"="Cost Overrun",
+                               "Delay"="Delay",
+                               "Both"="Delay and Cost Overrun"),
+                          multiple=TRUE,
+                          selected="Delay and Cost Overrun"
+           ),
            actionButton("byproject_warning_button","Check for Warnings"),
            checkboxInput("byproject_data_checkbox","Show Project Data",value=F),
            conditionalPanel(
