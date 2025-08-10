@@ -66,7 +66,9 @@ renv::restore()
 
 On features branch:
 - Implemented a Chat page using [querychat](https://github.com/posit-dev/querychat). With that one can examine a dataset using natural language
-
+- On By_project panel added some reactive functionality, fixed datatable coloring issue
+- On By_phase panel added some explanations
+- Added Summary panel and simple plot to the Home page, using reactivity
 
 ## References
 
