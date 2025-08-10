@@ -5,7 +5,7 @@ warning_data <- data %>% mutate(Project_Phase_Actual_Start_Date = mdy(Project_Ph
   mutate(Cost_ratio=Total_Phase_Actual_Spending_Amount/(Project_Budget_Amount+1e-5),
          Delay=Project_Phase_Actual_End_Date - Project_Phase_Planned_End_Date,
          Warning=case_when(
-           Cost_ratio > 1 & Project_Budget_Amount > 0 & Delay < 0 ~ "Critical Cost Overrun and Delay Warning",
+           Cost_ratio > 1 & Project_Budget_Amount > 0 & Delay > 0 ~ "Critical Cost Overrun and Delay Warning",
            Cost_ratio > 1 & Project_Budget_Amount > 0 ~ "Realized Cost Overrun Warning",
            Delay > 0 ~ "Realized Delay Warning",
            Project_Status_Name=="In-Progress" & Project_Phase_Planned_End_Date < as.Date("2025-03-31") ~ "Early Delay Warning",
@@ -32,4 +32,11 @@ output$byphase_barplot <- renderPlotly({
   ggplotly(p)
 })
 
+output$byphase_info <- invisible()
+observeEvent(input$byphase_plot_button,{
+  output$byphase_info <- renderUI({HTML("<p>Cost overrun means cost ratio (Actual Spending/ Budget amount) is above 1,<br>
+  Realized delay means actual end date is later than planned end date,<br>
+  Early delay is for phases still in progress but planned end date is vefore the last update date of the dataset (2025-03-31),<br>
+  Early cost warning is given to phases which estimate of spending is more than its budget</p>")})
+},once = TRUE)
   
