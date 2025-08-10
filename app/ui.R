@@ -2,6 +2,7 @@ library(shiny)
 library(bslib)
 library(plotly)
 library(ggplot2)
+library(querychat)
 
 ui <- page_navbar(
   theme  = bslib::bs_theme(version=5,bootswatch = "united"),

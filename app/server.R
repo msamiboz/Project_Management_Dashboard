@@ -7,6 +7,8 @@ library(DT)
 library(bslib)
 library(querychat)
 library(purrr)
+library(lubridate)
+library(moments)
 
 
 #thematic::thematic_shiny()
@@ -18,13 +20,13 @@ readRenviron("keys.Renviron")
 data_source <- querychat_data_source(full_data)
 
 querychat_config <- querychat_init(data_source = data_source,
-                                   create_chat_func = purrr::partial(ellmer::chat_google_gemini,model="gemini-1.5-flash-latest"))
+                                   greeting = readLines("greeting.md"),
+                                   create_chat_func = purrr::partial(ellmer::chat_google_gemini,model="gemini-2.5-flash-lite"))
 
 
 
 server <- function(input,output,session){
 
-  
   
   source("Duration_server.R",local = T)
 
