@@ -47,28 +47,6 @@ observeEvent(input$home_plot_button,{
 
 })
 
-type <- reactive({
-  req(input$home_column_selected)
-  cdata_raw <- formatted_data[[input$home_column_selected]]
-  if (is.numeric(cdata_raw)) {
-    return("numeric")
-  }else if (is.Date(cdata_raw)) {
-    return("Date")
-  }else if(is.factor(cdata_raw)){
-    return("factor")
-  }else{
-    return("other")
-  }
-})
-
-output$home_sum_nrow <- renderUI({
-  count <- nrow(cdata)
-  missing <- cdata %>% is.na() %>% sum()
-  paste0("<p>This column has ",count,
-         " observation. Which ",missing," of it is missing.</p>")
-})
-
-
 
 
 output$home_summary_table <- renderUI({
